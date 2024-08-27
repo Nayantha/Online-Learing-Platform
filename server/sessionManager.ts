@@ -30,3 +30,9 @@ export async function createSession(sessionData: CreateSessionData){
         return await prisma.session.create({data: { ...sessionData, token, expiresAt: getNowPlusOneHour()}}) as Session;
     }
 }
+
+export async function removeSession(sessionData: Session) {
+    await prisma.session.delete({
+        where: sessionData.id
+    })
+}
