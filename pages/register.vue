@@ -3,6 +3,8 @@
 import { ref } from 'vue';
 import type { RegisterAuthBody } from "~/utils/types";
 
+const authStore = useAuthStore();
+
 const form = ref<RegisterAuthBody>({
     email: 'email@mail.com',
     password: '1234567890',
@@ -11,12 +13,7 @@ const form = ref<RegisterAuthBody>({
 
 const submitForm = async () => {
     try {
-        const response = await $fetch('/api/auth/register', {
-            method: "POST",
-            body: form.value
-        });
-        console.log('Form submitted:', form.value);
-        console.log(response)
+        await authStore.register({ ...form.value });
     } catch (error) {
         console.error('Submission error:', error);
     }
