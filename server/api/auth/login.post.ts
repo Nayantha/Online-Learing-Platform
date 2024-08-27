@@ -3,32 +3,30 @@ import bcrypt from 'bcrypt';
 // @ts-ignore
 import jwt from 'jsonwebtoken';
 import { prisma } from '~/server/db'
+import { createSession } from '~/server/sessionManager';
 import { AuthResponse, LoginAuthBody } from "~/utils/types";
 
 export default defineEventHandler(async (event: AuthResponse): Promise<AuthResponse> => {
     const body: LoginAuthBody = await readBody(event);
     const { email, password } = body;
 
-    // get user
-    const user = await prisma.student.findUniqueOrThrow({
+    const student = await prisma.student.findUniqueOrThrow({
         where: {
             email: email
         },
     });
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, student.password);
 
     if (isPasswordValid) {
 
-        // Generate a JWT token
-        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
-
-        // Return the response
+        const session = await createSession({userId: student.id, userType: "student"});
         return {
-            token, user: { id: user.id, email: user.email },message : "ok"
+            session: session,
+            token: session.token, user: { id: student.id, email: student.email }, message : "ok"
         };
     } else {
-        return { token: "", user: { email: "", id: 0 }, "message": "wrong password"}
+        return { token: null, user: null, "message": "wrong password", session: null}
     }
 
 
