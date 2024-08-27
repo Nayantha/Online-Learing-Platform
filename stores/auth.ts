@@ -1,16 +1,11 @@
 import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
-import type { LoginAuthBody, RegisterAuthBody, User } from "~/utils/types";
-
-interface AuthResponse {
-    token: string;
-    user: User;
-}
+import type { AuthResponse, LoginAuthBody, RegisterAuthBody, StoreUser } from "~/utils/types";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        user: useStorage<User | null>('user', null),  // User can be null or of type User
-        token: useStorage<string | null>('token', null) // Token can be null or string
+        user: useStorage<StoreUser | null>('user', null),
+        token: useStorage<string | null>('token', null)
     }),
     actions: {
         async login(userData: LoginAuthBody) {
