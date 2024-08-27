@@ -1,22 +1,36 @@
 import {PrismaClient} from '@prisma/client';
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
+
+const hashedPassword = await bcrypt.hash("password", 10)
 
 const studentData = [
     {
         name: 'Alice',
         email: 'alice@prisma.io',
         std_id: 'ST001',
+        password: hashedPassword,
     },
     {
         name: 'Nilu',
         email: 'nilu@prisma.io',
         std_id: 'ST002',
+        password: hashedPassword,
     },
     {
         name: 'Mahmoud',
         email: 'mahmoud@prisma.io',
         std_id: 'ST003',
+        password: hashedPassword,
+    },
+];
+
+const adminData = [
+    {
+        name: 'Alice',
+        email: 'alice@prisma.io',
+        password: hashedPassword,
     },
 ];
 
@@ -50,6 +64,7 @@ async function main() {
     // Delete all existing data in reverse order of dependency
     await prisma.enrollment.deleteMany();
     await prisma.student.deleteMany();
+    await prisma.admin.deleteMany();
     await prisma.course.deleteMany();
     console.log(`All existing data deleted.`);
 
@@ -59,6 +74,14 @@ async function main() {
             data: s,
         });
         console.log(`Created student with id: ${student.id}`);
+    }
+
+    // Create admin
+    for (const a of adminData) {
+        const admin = await prisma.admin.create({
+            data: a,
+        });
+        console.log(`Created student with id: ${admin.id}`);
     }
 
     // Create courses
