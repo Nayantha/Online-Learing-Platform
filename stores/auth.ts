@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
-import type { AuthResponse, LoginAuthBody, RegisterAuthBody, StoreUser } from "~/utils/types";
+import type { AuthResponse, LoginAuthBody, RegisterAuthBody, Session, StoreUser } from "~/utils/types";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         user: useStorage<StoreUser | null>('user', null),
-        token: useStorage<string | null>('token', null)
+        token: useStorage<string | null>('token', null),
+        session: useStorage<Session | null>("session", null)
     }),
     actions: {
         async login(userData: LoginAuthBody) {
@@ -16,6 +17,7 @@ export const useAuthStore = defineStore('auth', {
                 }) as AuthResponse;
                 this.token = data.token;
                 this.user = data.user;
+                this.session = data.session;
             } catch (error) {
                 console.error(error);
             }
@@ -28,6 +30,7 @@ export const useAuthStore = defineStore('auth', {
                 }) as AuthResponse;
                 this.token = data.token;
                 this.user = data.user;
+                this.session = data.session;
             } catch (error) {
                 console.error(error);
             }
@@ -35,6 +38,7 @@ export const useAuthStore = defineStore('auth', {
         logout() {
             this.user = null;
             this.token = null;
+            this.session = null
         }
     }
 });
