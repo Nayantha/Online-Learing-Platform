@@ -44,3 +44,13 @@ export interface Session {
     student?: Student;  // Optional relation to Student
     admin?: Admin;      // Optional relation to Admin
 }
+
+export interface CourseCreationBody {
+    name: string;
+    description: string;
+}
+
+export interface CourseCreationResponseBody {
+    message: string;
+    data: object;
+}
