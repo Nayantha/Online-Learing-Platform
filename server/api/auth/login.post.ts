@@ -21,7 +21,7 @@ export default defineEventHandler(async (event: AuthResponse): Promise<AuthRespo
     if (isPasswordValid) {
 
         // Generate a JWT token
-        const token = jwt.sign({ userId: user.id }, '4b7e35d3d60d3d8461efea6e33c6fa7b', { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
 
         // Return the response
         return {
