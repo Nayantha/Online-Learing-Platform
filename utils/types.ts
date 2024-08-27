@@ -72,9 +72,7 @@ export interface User {
     std_id?: string;
     userType: 'student' | 'admin';
 }
-export interface SessionData {
-    id: number,
-    token: string,
+export interface CreateSessionData {
     userType: 'student' | 'admin';
     userId: string;
 }
