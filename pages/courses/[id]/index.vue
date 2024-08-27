@@ -9,14 +9,12 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import axios from 'axios';
 import type { Course } from "~/utils/types";
 
 const route = useRoute();
 const course  = ref<Course | null>(null);
 
 onMounted(async () => {
-    const { data } = await axios.get(`/api/courses/${route.params.id}`);
-    course.value = data as Course;
+    course.value = await $fetch(`/api/courses/${ route.params.id }`);
 });
 </script>
