@@ -1,4 +1,5 @@
-const { PrismaClient } = require('@prisma/client');
+import {PrismaClient} from '@prisma/client';
+
 const prisma = new PrismaClient();
 
 const studentData = [
@@ -21,30 +22,36 @@ const studentData = [
 
 const courseData = [
     {
+        id: 1,
         name: 'Math 101',
-        description: 'Introduction to Algebra',
-        price: 100.0,
+        description: 'Introduction to Algebra'
     },
     {
+        id: 2,
         name: 'Physics 101',
-        description: 'Introduction to Mechanics',
-        price: 150.0,
+        description: 'Introduction to Mechanics'
     },
 ];
 
 const enrollmentData = async () => [
     {
         studentId: (await prisma.student.findUnique({ where: { email: 'alice@prisma.io' } })).id,
-        courseId: (await prisma.course.findUnique({ where: { name: 'Math 101' } })).id,
+        courseId: (await prisma.course.findUnique({ where: { id: 1 } })).id,
     },
     {
         studentId: (await prisma.student.findUnique({ where: { email: 'nilu@prisma.io' } })).id,
-        courseId: (await prisma.course.findUnique({ where: { name: 'Physics 101' } })).id,
+        courseId: (await prisma.course.findUnique({ where: { id: 2 } })).id,
     },
 ];
 
 async function main() {
     console.log(`Start seeding ...`);
+
+    // Delete all existing data in reverse order of dependency
+    await prisma.enrollment.deleteMany();
+    await prisma.student.deleteMany();
+    await prisma.course.deleteMany();
+    console.log(`All existing data deleted.`);
 
     // Create students
     for (const s of studentData) {
