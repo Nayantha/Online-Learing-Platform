@@ -7,7 +7,6 @@ export interface Student {
     enrollments: Enrollment[];
     sessions: Session[];  // Multiple sessions
 }
-
 export interface Admin {
     id: number;
     email: string;
@@ -15,7 +14,6 @@ export interface Admin {
     password: string;
     sessions: Session[];  // Multiple sessions
 }
-
 export interface Course {
     id: number;
     name: string;
@@ -24,7 +22,6 @@ export interface Course {
     createdAt: Date;
     updatedAt: Date;
 }
-
 export interface Enrollment {
     id: number;
     student: Student;
@@ -33,7 +30,6 @@ export interface Enrollment {
     courseId: number;
     createdAt: Date;
 }
-
 export interface Session {
     id: number;
     userId: number;
@@ -44,28 +40,23 @@ export interface Session {
     student?: Student;  // Optional relation to Student
     admin?: Admin;      // Optional relation to Admin
 }
-
 export interface CourseCreationBody {
     name: string;
     description: string;
 }
-
 export interface CourseCreationResponseBody {
     message: string;
     data: object;
 }
-
 export interface LoginAuthBody {
     email: string;
     password: string;
 }
-
 export interface RegisterAuthBody {
     email: string;
     password: string;
     name: string;
 }
-
 export interface AuthResponse {
     token: string;
     user: {
@@ -74,11 +65,15 @@ export interface AuthResponse {
     };
     message: string;
 }
-
 export interface User {
     id: number;
     name: string;
     email: string;
     std_id?: string;
+    userType: 'student' | 'admin';
+}
+export interface SessionData {
+    id: number,
+    token: string,
     userType: 'student' | 'admin';
 }
