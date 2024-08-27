@@ -25,10 +25,10 @@ export default defineEventHandler(async (event: AuthResponse): Promise<AuthRespo
 
         // Return the response
         return {
-            token, user: { id: user.id, email: user.email, password: user.password },message : "ok"
+            token, user: { id: user.id, email: user.email },message : "ok"
         };
     } else {
-        return { token: "", user: { email: "", id: 0, password: "" }, "message": "wrong password"}
+        return { token: "", user: { email: "", id: 0 }, "message": "wrong password"}
     }
 
 
