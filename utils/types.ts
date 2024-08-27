@@ -76,4 +76,5 @@ export interface SessionData {
     id: number,
     token: string,
     userType: 'student' | 'admin';
+    userId: string;
 }
