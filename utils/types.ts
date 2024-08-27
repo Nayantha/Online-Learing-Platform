@@ -58,13 +58,13 @@ export interface RegisterAuthBody {
     name: string;
 }
 export interface AuthResponse {
-    token: string;
+    token: string | null;
     user: {
         id: number;
         email: string;
-    };
+    } | null;
     message: string;
-    session: Session;
+    session: Session | null;
 }
 export interface User {
     id: number;
