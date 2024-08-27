@@ -8,10 +8,11 @@ datasource db {
 }
 
 model Student {
-  id     Int    @id @default(autoincrement())
-  email  String @unique
-  name   String
-  std_id String @unique
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  name        String
+  std_id      String       @unique
+  enrollments Enrollment[]
 }
 
 model Admin {
@@ -21,6 +22,15 @@ model Admin {
 }
 
 model Course {
-  id   Int    @id @default(autoincrement())
-  name String
+  id          Int          @id @default(autoincrement())
+  name        String
+  enrollments Enrollment[]
+}
+
+model Enrollment {
+  id        Int     @id @default(autoincrement())
+  Student   Student @relation(fields: [studentId], references: [id])
+  studentId Int
+  Course    Course  @relation(fields: [courseId], references: [id])
+  courseId  Int
 }
