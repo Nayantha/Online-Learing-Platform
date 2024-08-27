@@ -69,3 +69,11 @@ export interface LoginAuthResponse {
     };
     message: string;
 }
+
+export interface User {
+    id: number;
+    name: string;
+    email: string;
+    std_id?: string;
+    userType: 'student' | 'admin';
+}
