@@ -15,6 +15,7 @@ model Student {
   password String
 
   enrollments Enrollment[]
+  Session     Session[]
 }
 
 model Admin {
@@ -22,13 +23,16 @@ model Admin {
   email    String @unique
   name     String
   password String
+
+  Session Session[]
 }
 
 model Course {
-  id          Int          @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   name        String
-  enrollments Enrollment[]
   description String?
+
+  enrollments Enrollment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -46,4 +50,17 @@ model Enrollment {
   createdAt DateTime @default(now())
 
   @@unique([studentId, courseId]) // Ensure that a student can't enroll in the same course more than once
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  userType  String // 'student' or 'admin'
+  token     String   @unique
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  // Relations
+  student Student? @relation(fields: [userId], references: [id], onDelete: Cascade, map: "session_student_fkey")
+  admin   Admin?   @relation(fields: [userId], references: [id], onDelete: Cascade, map: "session_admin_fkey")
 }
