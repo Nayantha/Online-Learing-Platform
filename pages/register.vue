@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 
 import { ref } from 'vue';
-import axios from 'axios';
 
 export interface RegisterBody {
     email: string;
@@ -17,7 +16,10 @@ const form = ref<RegisterBody>({
 
 const submitForm = async () => {
     try {
-        const response = await axios.post('/api/auth/register', form.value);
+        const response = await $fetch('/api/auth/register', {
+            method: "POST",
+            body: form.value
+        });
         console.log('Form submitted:', form.value);
         console.log(response)
     } catch (error) {
