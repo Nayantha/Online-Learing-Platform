@@ -14,9 +14,9 @@ export const useAuthStore = defineStore('auth', {
         token: useStorage<string | null>('token', null) // Token can be null or string
     }),
     actions: {
-        async login(email: string, password: string) {
+        async login(userData: LoginAuthBody) {
             try {
-                const { data } = await axios.post<AuthResponse>('/api/auth/login', { email, password });
+                const { data } = await axios.post<AuthResponse>('/api/auth/login', userData);
                 this.token = data.token;
                 this.user = data.user;
             } catch (error) {
