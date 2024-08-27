@@ -6,3 +6,21 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Student {
+  id     Int    @id @default(autoincrement())
+  email  String @unique
+  name   String
+  std_id String @unique
+}
+
+model Admin {
+  id    Int    @id @default(autoincrement())
+  email String @unique
+  name  String
+}
+
+model Course {
+  id   Int    @id @default(autoincrement())
+  name String
+}
