@@ -19,6 +19,7 @@
     "vue": "latest"
   },
   "devDependencies": {
-    "@prisma/client": "^5.18.0"
+    "@prisma/client": "^5.18.0",
+    "@types/node": "^22.5.0"
   }
 }
