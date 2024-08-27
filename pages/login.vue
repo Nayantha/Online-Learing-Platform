@@ -1,13 +1,9 @@
 <script lang="ts" setup>
 
 import { ref } from 'vue';
+import type { LoginAuthBody } from "~/utils/types";
 
-export interface LoginBody {
-    email: string;
-    password: string;
-}
-
-const form = ref<LoginBody>({
+const form = ref<LoginAuthBody>({
     email: 'email@mail.com',
     password: '1234567890',
 });
