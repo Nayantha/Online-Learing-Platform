@@ -1,14 +1,9 @@
 <script lang="ts" setup>
 
 import { ref } from 'vue';
+import type { RegisterAuthBody } from "~/utils/types";
 
-export interface RegisterBody {
-    email: string;
-    password: string;
-    name: string;
-}
-
-const form = ref<RegisterBody>({
+const form = ref<RegisterAuthBody>({
     email: 'email@mail.com',
     password: '1234567890',
     name: 'name1',
