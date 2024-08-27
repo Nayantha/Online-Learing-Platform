@@ -24,7 +24,7 @@ const deleteCourse = async () => {
     if (confirm('Are you sure you want to delete this course?')) {
         try {
             await $fetch(`/api/courses/${ route.params.id }`, { method: 'DELETE' });
-            // await router.push('/courses');
+            await router.push('/courses');
         } catch (error) {
             console.error('Failed to delete the course:', error);
         }
