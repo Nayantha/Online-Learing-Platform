@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
 import type { AuthResponse, LoginAuthBody, RegisterAuthBody, Session, StoreUser } from "~/utils/types";
+import { checkTokenValidity } from "~/server/sessionManager";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -39,6 +40,14 @@ export const useAuthStore = defineStore('auth', {
             this.user = null;
             this.token = null;
             this.session = null
+        },
+        async getToken() {
+            try {
+                await checkTokenValidity(this.token ?? "");
+                return this.token;
+            } catch (e) {
+                return "";
+            }
         }
     }
 });
