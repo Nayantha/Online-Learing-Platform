@@ -8,13 +8,11 @@ const form = ref<LoginAuthBody>({
     password: '1234567890',
 });
 
+const authStore = useAuthStore();
+
 const submitForm = async () => {
     try {
-        const res = await $fetch('/api/auth/login', {
-            method: "POST",
-            body: form.value
-        });
-        console.log(res)
+        await authStore.login({ ...form.value });
     } catch (error) {
         console.error('Submission error:', error);
     }
