@@ -5,8 +5,7 @@ export default defineEventHandler(async (event: any) => {
     const updatedCourse: Course = await readBody(event);
 
     const courseId: number = Number(getRouterParam(event, 'id'));
-
-    console.log(updatedCourse,courseId)
+    updatedCourse.id = courseId;
 
     try {
         await prisma.course.update({
