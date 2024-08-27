@@ -25,12 +25,22 @@ model Course {
   id          Int          @id @default(autoincrement())
   name        String
   enrollments Enrollment[]
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Enrollment {
-  id        Int     @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
   Student   Student @relation(fields: [studentId], references: [id])
   studentId Int
-  Course    Course  @relation(fields: [courseId], references: [id])
-  courseId  Int
+
+  Course   Course @relation(fields: [courseId], references: [id])
+  courseId Int
+
+  createdAt DateTime @default(now())
+
+  @@unique([studentId, courseId]) // Ensure that a student can't enroll in the same course more than once
 }
