@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
-import axios from 'axios';
 import type { LoginAuthBody, RegisterAuthBody, User } from "~/utils/types";
 
 interface AuthResponse {
@@ -28,7 +27,10 @@ export const useAuthStore = defineStore('auth', {
         },
         async register(userData: RegisterAuthBody) {
             try {
-                const { data } = await axios.post<AuthResponse>('/api/auth/register', userData);
+                const data : AuthResponse = await $fetch('/api/auth/register', {
+                    method: "POST",
+                    body: userData
+                }) as AuthResponse;
                 this.token = data.token;
                 this.user = data.user;
             } catch (error) {
