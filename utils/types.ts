@@ -54,3 +54,18 @@ export interface CourseCreationResponseBody {
     message: string;
     data: object;
 }
+
+export interface LoginAuthBody {
+    email: string;
+    password: string;
+}
+
+export interface LoginAuthResponse {
+    token: string;
+    user: {
+        id: number;
+        email: string;
+        password: string; // This should ideally not be included in the response
+    };
+    message: string;
+}

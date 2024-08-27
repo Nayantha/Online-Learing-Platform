@@ -3,22 +3,7 @@ import bcrypt from 'bcrypt';
 // @ts-ignore
 import jwt from 'jsonwebtoken';
 import { prisma } from '~/server/db'
-
-interface LoginAuthBody {
-    email: string;
-    password: string;
-}
-
-// Define the type of response
-interface LoginAuthResponse {
-    token: string;
-    user: {
-        id: number;
-        email: string;
-        password: string; // This should ideally not be included in the response
-    };
-    message: string;
-}
+import { LoginAuthBody, LoginAuthResponse } from "~/utils/types";
 
 export default defineEventHandler(async (event: LoginAuthResponse): Promise<LoginAuthResponse> => {
     const body: LoginAuthBody = await readBody(event);
