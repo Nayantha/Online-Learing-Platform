@@ -8,6 +8,7 @@ dist
 
 # prisma
 lib
+prisma/migrations
 
 # Node dependencies
 node_modules
