@@ -8,17 +8,20 @@ datasource db {
 }
 
 model Student {
-  id          Int          @id @default(autoincrement())
-  email       String       @unique
-  name        String
-  std_id      String       @unique
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  name     String
+  std_id   String @unique
+  password String
+
   enrollments Enrollment[]
 }
 
 model Admin {
-  id    Int    @id @default(autoincrement())
-  email String @unique
-  name  String
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  name     String
+  password String
 }
 
 model Course {
