@@ -12,6 +12,8 @@
   "dependencies": {
     "@pinia/nuxt": "^0.5.4",
     "@prisma/nuxt": "^0.0.35",
+    "@vueuse/core": "^11.0.3",
+    "axios": "^1.7.5",
     "nuxt": "^3.13.0",
     "vue": "latest"
   },
