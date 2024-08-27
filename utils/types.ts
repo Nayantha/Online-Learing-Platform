@@ -60,12 +60,11 @@ export interface LoginAuthBody {
     password: string;
 }
 
-export interface LoginAuthResponse {
+export interface AuthResponse {
     token: string;
     user: {
         id: number;
         email: string;
-        password: string; // This should ideally not be included in the response
     };
     message: string;
 }

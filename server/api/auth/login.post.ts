@@ -3,9 +3,9 @@ import bcrypt from 'bcrypt';
 // @ts-ignore
 import jwt from 'jsonwebtoken';
 import { prisma } from '~/server/db'
-import { LoginAuthBody, LoginAuthResponse } from "~/utils/types";
+import { AuthResponse, LoginAuthBody } from "~/utils/types";
 
-export default defineEventHandler(async (event: LoginAuthResponse): Promise<LoginAuthResponse> => {
+export default defineEventHandler(async (event: AuthResponse): Promise<AuthResponse> => {
     const body: LoginAuthBody = await readBody(event);
     const { email, password } = body;
 
