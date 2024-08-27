@@ -3,25 +3,10 @@ import bcrypt from 'bcrypt';
 // @ts-ignore
 import jwt from 'jsonwebtoken';
 import { prisma } from '~/server/db'
-
-interface AuthBody {
-    email: string;
-    password: string;
-    name: string;
-}
-
-// Define the type of response
-interface AuthResponse {
-    token: string;
-    user: {
-        id: number;
-        email: string;
-        password: string; // This should ideally not be included in the response
-    };
-}
+import { AuthResponse, RegisterAuthBody } from '~/utils/types';
 
 export default defineEventHandler(async (event: AuthResponse): Promise<AuthResponse> => {
-    const body: AuthBody = await readBody(event);
+    const body: RegisterAuthBody = await readBody(event);
     const { email, password, name } = body;
 
     // Hash the password
@@ -41,5 +26,5 @@ export default defineEventHandler(async (event: AuthResponse): Promise<AuthRespo
 
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
 
-    return { token, user: { id: user.id, email: user.email, password: hashedPassword } };
+    return { token, user: { id: user.id, email: user.email }, message: "Successfully registered." };
 });
