@@ -64,6 +64,7 @@ export interface AuthResponse {
         email: string;
     };
     message: string;
+    session: Session;
 }
 export interface User {
     id: number;
