@@ -3,13 +3,15 @@ import jwt from "jsonwebtoken";
 import { prisma } from "~/server/db";
 import { CreateSessionData, Session } from "~/utils/types";
 
+const JWT_EXPIRE_TIME = 1; // 1 hour
+
 export function createJWT(userId: string) {
-    return jwt.sign({ userId }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+    return jwt.sign({ userId }, process.env.JWT_SECRET as string, { expiresIn: `${JWT_EXPIRE_TIME}h` });
 }
 
 const getNowPlusOneHour = () => {
     const now = new Date();            // Get the current time
-    const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);  // Add 1 hour
+    const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000 * JWT_EXPIRE_TIME);  // Add 1 hour
     return oneHourLater.toISOString();
 };
 
