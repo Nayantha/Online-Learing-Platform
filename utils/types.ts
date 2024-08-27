@@ -60,6 +60,12 @@ export interface LoginAuthBody {
     password: string;
 }
 
+export interface RegisterAuthBody {
+    email: string;
+    password: string;
+    name: string;
+}
+
 export interface AuthResponse {
     token: string;
     user: {
