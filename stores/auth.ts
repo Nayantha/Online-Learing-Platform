@@ -1,7 +1,6 @@
-import { defineStore } from 'pinia';
-import { useStorage } from '@vueuse/core';
-import type { AuthResponse, LoginAuthBody, RegisterAuthBody, Session, StoreUser } from "~/utils/types";
-import { checkTokenValidity } from "~/server/sessionManager";
+import {defineStore} from 'pinia';
+import {useStorage} from '@vueuse/core';
+import type {AuthResponse, LoginAuthBody, RegisterAuthBody, Session, StoreUser} from "~/utils/types";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -43,8 +42,12 @@ export const useAuthStore = defineStore('auth', {
         },
         async getToken() {
             try {
-                await checkTokenValidity(this.token ?? "");
-                return this.token;
+                const data: boolean = await $fetch(`/api/auth/${this.token}`, {method: "GET"});
+                if (data) {
+                    return this.token;
+                } else {
+                    return ""
+                }
             } catch (e) {
                 return "";
             }
