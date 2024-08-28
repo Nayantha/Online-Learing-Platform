@@ -50,7 +50,6 @@ export const useAuthStore = defineStore('auth', {
             this.session = null
         },
         storeData(data: AuthResponse) {
-            console.log("store data")
             this.token = data.token
             localStorage.setItem('token', <string>this.token)
 
