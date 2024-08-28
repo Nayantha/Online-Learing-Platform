@@ -22,7 +22,6 @@ export default defineEventHandler(async (event: CourseCreationBody): Promise<Cou
         } else {
             throw createError({statusCode: 403, statusMessage: 'Forbidden: Admins only'});
         }
-
     } catch (e) {
         return { "message": "Something went wrong" } as CourseCreationResponseBody;
     }
