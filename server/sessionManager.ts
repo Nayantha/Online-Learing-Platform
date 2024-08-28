@@ -49,6 +49,8 @@ export async function createSession(sessionData: CreateSessionData) {
 
 export async function removeSession(session: Session) {
     await prisma.session.delete({
-        where: session.id
+        where: {
+            id: session.id
+        }
     })
 }
