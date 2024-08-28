@@ -42,11 +42,6 @@ export async function createSession(sessionData: CreateSessionData) {
     } catch (e) {
         const token = createJWT(sessionData.userId, sessionData.userType);
 
-        const secret = process.env.JWT_SECRET as string;
-        const decodedToken = jwt.verify(token, secret);
-
-        console.log(decodedToken)
-
         return await prisma.session.create({
             data: {
                 ...sessionData,
