@@ -35,6 +35,17 @@ export async function createSession(sessionData: CreateSessionData) {
     } catch (e) {
         const token = createJWT(sessionData.userId, sessionData.userType);
 
+        const session = await prisma.session.findUniqueOrThrow({
+            where: {
+                userId_userType: {
+                    userId: sessionData.userId,
+                    userType: sessionData.userType
+                }
+            }
+        }) as Session;
+
+        await removeSession(session);
+
         return await prisma.session.create({
             data: {
                 ...sessionData,
