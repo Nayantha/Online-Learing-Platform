@@ -5,7 +5,7 @@ import {CreateSessionData, Session} from "~/utils/types";
 
 const JWT_EXPIRE_TIME = 1; // 1 hour
 
-export function createJWT(userId: number) {
+export function createJWT(userId: number, userType: "student" | "admin") {
     return jwt.sign({userId}, process.env.JWT_SECRET as string, {expiresIn: `${JWT_EXPIRE_TIME}h`});
 }
 
@@ -27,6 +27,11 @@ export async function createSession(sessionData: CreateSessionData) {
             }
         }) as Session;
 
+        const secret = process.env.JWT_SECRET as string;
+        const decodedToken = jwt.verify(session.token, secret);
+
+        console.log(decodedToken)
+
         if (new Date().getTime() > session.expiresAt.getTime()) {
             await removeSession(session);
             throw new Error("expired");
@@ -35,7 +40,12 @@ export async function createSession(sessionData: CreateSessionData) {
         return session;
 
     } catch (e) {
-        const token = createJWT(sessionData.userId);
+        const token = createJWT(sessionData.userId, sessionData.userType);
+
+        const secret = process.env.JWT_SECRET as string;
+        const decodedToken = jwt.verify(token, secret);
+
+        console.log(decodedToken)
 
         return await prisma.session.create({
             data: {
