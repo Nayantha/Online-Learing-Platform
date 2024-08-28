@@ -4,6 +4,8 @@
         <p>{{ course.description }}</p>
         <NuxtLink :to="`/courses/${course.id}/edit`">Edit Course</NuxtLink>
         <button v-if="isAdmin" @click="deleteCourse">Delete</button>
+        <button @click="enroll">Enroll</button>
+        <div>Enrolled</div>
     </div>
 </template>
 
@@ -51,4 +53,17 @@ const deleteCourse = async () => {
         }
     }
 };
+
+const enroll = async () => {
+    try {
+        await $fetch('/api/enrollment', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+    } catch (error) {
+        console.error('Failed to enroll the course:', error);
+    }
+}
 </script>
