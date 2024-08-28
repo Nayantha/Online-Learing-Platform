@@ -15,11 +15,9 @@ export const useAuthStore = defineStore('auth', {
                     method: "POST",
                     body: userData
                 }) as AuthResponse;
-                this.token = data.token;
-                this.user = data.user;
-                this.session = data.session;
+                this.storeData(data);
             } catch (error) {
-                console.error(error);
+                console.error("Error login", error);
             }
         },
         async loginAdmin(userData: LoginAuthBody) {
@@ -28,10 +26,7 @@ export const useAuthStore = defineStore('auth', {
                     method: "POST",
                     body: userData
                 }) as AuthResponse;
-                this.token = data.token;
-                this.user = data.user;
-                this.session = data.session;
-                console.log(this.user, this.session)
+                this.storeData(data);
             } catch (error) {
                 console.error(error);
             }
@@ -42,9 +37,7 @@ export const useAuthStore = defineStore('auth', {
                     method: "POST",
                     body: userData
                 }) as AuthResponse;
-                this.token = data.token;
-                this.user = data.user;
-                this.session = data.session;
+                this.storeData(data);
             } catch (error) {
                 console.error(error);
             }
@@ -54,16 +47,29 @@ export const useAuthStore = defineStore('auth', {
             this.token = null;
             this.session = null
         },
+        storeData(data: AuthResponse) {
+            console.log("store data")
+            this.token = data.token
+            localStorage.setItem('token', <string>this.token)
+
+            this.user = data.user
+            // @ts-ignore
+            localStorage.setItem('user', this.user)
+
+            this.session = data.session
+            // @ts-ignore
+            localStorage.setItem('session', this.session)
+        },
         async getToken() {
             try {
                 const data: boolean = await $fetch(`/api/auth/${this.token}`, {method: "GET"});
                 if (data) {
                     return this.token;
                 } else {
-                    return ""
+                    return "No token in DB"
                 }
             } catch (e) {
-                return "";
+                return "Error";
             }
         }
     }
