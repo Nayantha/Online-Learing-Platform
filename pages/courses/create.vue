@@ -14,9 +14,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAuthStore } from "~/stores/auth";
+import {ref} from 'vue';
+import {useRouter} from 'vue-router';
 
 const authStore = useAuthStore();
 const form = ref({name: 'Science 101', description: 'Introduction to basic Science.'});
@@ -24,9 +23,9 @@ const router = useRouter();
 
 const submitForm = async () => {
     await $fetch('/api/courses', {
-        method: "POST", body: form.value,
-        headers: {
-            Authorization: `Bearer ${await authStore.getToken()}`
+            method: "POST", body: form.value,
+            headers: {
+                Authorization: `Bearer ${await authStore.getToken()}`
         }
     }
     );

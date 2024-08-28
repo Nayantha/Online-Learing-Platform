@@ -11,9 +11,8 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
-import type { Course } from "~/utils/types";
-import { useAuthStore } from "~/stores/auth";
+import {onMounted, ref} from 'vue';
+import type {Course} from "~/utils/types";
 
 const authStore = useAuthStore();
 const courses = ref<Course[] | []>([]);
@@ -21,8 +20,8 @@ const courses = ref<Course[] | []>([]);
 onMounted(async () => {
     courses.value = await $fetch('/api/courses', {
         headers: {
-        Authorization: `Bearer ${await authStore.getToken()}`
-    }
+            Authorization: `Bearer ${await authStore.getToken()}`
+        }
     }) as Course[];
 });
 </script>

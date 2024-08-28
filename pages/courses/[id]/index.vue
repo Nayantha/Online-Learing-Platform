@@ -8,18 +8,17 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import type { Course } from "~/utils/types";
-import { useAuthStore } from "~/stores/auth";
+import {onMounted, ref} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
+import type {Course} from "~/utils/types";
 
 const router = useRouter();
 const route = useRoute();
-const course  = ref<Course | null>(null);
+const course = ref<Course | null>(null);
 const authStore = useAuthStore();
 
 onMounted(async () => {
-    course.value = await $fetch(`/api/courses/${ route.params.id }`);
+    course.value = await $fetch(`/api/courses/${route.params.id}`);
 });
 
 const deleteCourse = async () => {

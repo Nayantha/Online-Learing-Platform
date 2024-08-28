@@ -14,9 +14,8 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
-import {useAuthStore} from "~/stores/auth.js";
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
 const form = ref({name: '', description: '', price: 0});
