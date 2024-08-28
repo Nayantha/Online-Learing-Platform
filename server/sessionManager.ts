@@ -6,7 +6,7 @@ import {CreateSessionData, Session} from "~/utils/types";
 const JWT_EXPIRE_TIME = 1; // 1 hour
 
 export function createJWT(userId: number, userType: "student" | "admin") {
-    return jwt.sign({userId}, process.env.JWT_SECRET as string, {expiresIn: `${JWT_EXPIRE_TIME}h`});
+    return jwt.sign({userId, userType}, process.env.JWT_SECRET as string, {expiresIn: `${JWT_EXPIRE_TIME}h`});
 }
 
 const getNowPlusOneHour = () => {
