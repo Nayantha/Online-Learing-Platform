@@ -63,4 +63,7 @@ model Session {
   // Relations
   student Student? @relation(fields: [userId], references: [id], onDelete: Cascade, map: "session_student_fkey")
   admin   Admin?   @relation(fields: [userId], references: [id], onDelete: Cascade, map: "session_admin_fkey")
+
+  // Ensure combination of userId and userType is unique
+  @@unique([userId, userType])
 }
