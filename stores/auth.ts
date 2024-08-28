@@ -50,16 +50,16 @@ export const useAuthStore = defineStore('auth', {
             this.session = null
         },
         storeData(data: AuthResponse) {
-            this.token = data.token
-            localStorage.setItem('token', <string>this.token)
+            this.token = data.token;
+            localStorage.setItem('token', <string>this.token);
 
-            this.user = data.user
+            this.user = data.user;
             // @ts-ignore
-            localStorage.setItem('user', this.user)
+            localStorage.setItem('user', JSON.stringify(this.user));
 
-            this.session = data.session
+            this.session = data.session;
             // @ts-ignore
-            localStorage.setItem('session', this.session)
+            localStorage.setItem('session', JSON.stringify(this.session));
         },
         async getToken() {
             try {
