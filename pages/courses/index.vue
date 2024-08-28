@@ -14,13 +14,12 @@
 import {onMounted, ref} from 'vue';
 import type {Course} from "~/utils/types";
 
-const authStore = useAuthStore();
 const courses = ref<Course[] | []>([]);
 
 onMounted(async () => {
     courses.value = await $fetch('/api/courses', {
         headers: {
-            Authorization: `Bearer ${await authStore.getToken()}`
+            Authorization: `Bearer ${localStorage.getItem('token')}`
         }
     }) as Course[];
 });
