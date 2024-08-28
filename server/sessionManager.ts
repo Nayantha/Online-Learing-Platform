@@ -15,18 +15,6 @@ const getNowPlusOneHour = () => {
     return oneHourLater.toISOString();
 };
 
-export async function checkTokenValidity(token: string) {
-    const session = await prisma.session.findUniqueOrThrow({
-        where: {
-            token
-        }
-    });
-
-    if (new Date().getTime() > session.expiresAt.getTime()) {
-        throw new Error("expired");
-    }
-}
-
 export async function createSession(sessionData: CreateSessionData) {
     const token = createJWT(sessionData.userId);
     try {
