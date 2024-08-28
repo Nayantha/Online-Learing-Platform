@@ -17,7 +17,6 @@
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-const authStore = useAuthStore();
 const form = ref({name: '', description: '', price: 0});
 const router = useRouter();
 const route = useRoute();
@@ -25,7 +24,7 @@ const route = useRoute();
 onMounted(async () => {
     form.value = await $fetch(`/api/courses/${route.params.id}`, {
         headers: {
-            Authorization: `Bearer ${await authStore.getToken()}`
+            Authorization: `Bearer ${localStorage.getItem('token')}`
         }
     });
 });

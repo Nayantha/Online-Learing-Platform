@@ -25,7 +25,7 @@ const submitForm = async () => {
     await $fetch('/api/courses', {
             method: "POST", body: form.value,
             headers: {
-                Authorization: `Bearer ${await authStore.getToken()}`
+                Authorization: `Bearer ${localStorage.getItem('token')}`
         }
     }
     );

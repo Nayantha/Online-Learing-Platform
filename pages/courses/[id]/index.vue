@@ -15,10 +15,14 @@ import type {Course} from "~/utils/types";
 const router = useRouter();
 const route = useRoute();
 const course = ref<Course | null>(null);
-const authStore = useAuthStore();
 
 onMounted(async () => {
-    course.value = await $fetch(`/api/courses/${route.params.id}`);
+    course.value = await $fetch(`/api/courses/${route.params.id}`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    });
 });
 
 const deleteCourse = async () => {
@@ -27,7 +31,7 @@ const deleteCourse = async () => {
             await $fetch(`/api/courses/${ route.params.id }`, {
                 method: 'DELETE',
                 headers: {
-                    Authorization: `Bearer ${await authStore.getToken()}`
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
             await router.push('/courses');
