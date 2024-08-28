@@ -75,7 +75,7 @@ export interface User {
 }
 export interface CreateSessionData {
     userType: 'student' | 'admin';
-    userId: string;
+    userId: number;
 }
 export interface StoreUser{
     email: string | null;
