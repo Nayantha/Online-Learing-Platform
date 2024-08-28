@@ -1,18 +1,21 @@
 <script lang="ts" setup>
 
-import { ref } from 'vue';
-import type { LoginAuthBody } from "~/utils/types";
+import {ref} from 'vue';
+import type {LoginAuthBody} from "~/utils/types";
+import {useRouter} from "vue-router";
 
 const form = ref<LoginAuthBody>({
     email: 'email@mail.com',
     password: '1234567890',
 });
-
+const router = useRouter();
 const authStore = useAuthStore();
 
 const submitForm = async () => {
     try {
-        await authStore.login({ ...form.value });
+        await authStore.login({...form.value});
+        console.log("logged in...");
+        await router.push('/courses');
     } catch (error) {
         console.error('Submission error:', error);
     }
