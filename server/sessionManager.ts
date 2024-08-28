@@ -1,11 +1,11 @@
 // @ts-ignore
 import jwt from "jsonwebtoken";
-import { prisma } from "~/server/db";
-import { CreateSessionData, Session } from "~/utils/types";
+import {prisma} from "~/server/db";
+import {CreateSessionData, Session} from "~/utils/types";
 
 const JWT_EXPIRE_TIME = 1; // 1 hour
 
-export function createJWT(userId: string) {
+export function createJWT(userId: number) {
     return jwt.sign({ userId }, process.env.JWT_SECRET as string, { expiresIn: `${ JWT_EXPIRE_TIME }h` });
 }
 
