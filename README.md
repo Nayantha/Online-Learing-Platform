@@ -20,6 +20,16 @@ yarn install
 bun install
 ```
 
+## Environment Variables
+
+Add the following details to .env file
+DATABASE_URL
+JWT_SECRET
+
+## Add SQL server to ./prisma/schema.prisma
+
+## Run npm i or necessary install dependencies
+
 ## Development Server
 
 Start the development server on `http://localhost:3000`:
