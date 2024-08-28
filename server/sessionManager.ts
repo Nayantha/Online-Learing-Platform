@@ -16,7 +16,7 @@ const getNowPlusOneHour = () => {
 };
 
 export async function createSession(sessionData: CreateSessionData) {
-    const token = createJWT(sessionData.userId);
+
     try {
         const session = await prisma.session.findUniqueOrThrow({
             where: {
@@ -39,6 +39,8 @@ export async function createSession(sessionData: CreateSessionData) {
         return session;
 
     } catch (e) {
+        const token = createJWT(sessionData.userId);
+
         return await prisma.session.create({
             data: {
                 ...sessionData,
