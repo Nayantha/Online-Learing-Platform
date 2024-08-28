@@ -4,8 +4,10 @@
         <p>{{ course.description }}</p>
         <NuxtLink :to="`/courses/${course.id}/edit`">Edit Course</NuxtLink>
         <button v-if="isAdmin" @click="deleteCourse">Delete</button>
-        <button @click="enroll">Enroll</button>
-        <div>Enrolled</div>
+        <div v-if="!isAdmin">
+            <button @click="enroll">Enroll</button>
+            <div>Enrolled</div>
+        </div>
     </div>
 </template>
 
@@ -18,6 +20,7 @@ const router = useRouter();
 const route = useRoute();
 const course = ref<Course | null>(null);
 const isAdmin = ref(false);
+const studentId = ref<number | null>(null);
 
 onMounted(async () => {
     course.value = await $fetch(`/api/courses/${route.params.id}`, {
@@ -29,8 +32,9 @@ onMounted(async () => {
 
     // Ensure this runs only in the client
     if (process.client) {
-        const session: Session | null = localStorage.getItem('session') as Session | null;
+        const session: Session | null = JSON.parse(localStorage.getItem('session') ?? "{}") as Session | null;
         if (session) {
+            studentId.value = session.userId;
             if (session.userType === 'admin') {
                 isAdmin.value = true;
             }
@@ -60,6 +64,10 @@ const enroll = async () => {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
+            },
+            body: {
+                studentId: studentId.value ?? 0,
+                courseId: course.value!.id ?? 0
             }
         });
     } catch (error) {
