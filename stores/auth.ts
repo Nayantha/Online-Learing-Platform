@@ -22,9 +22,23 @@ export const useAuthStore = defineStore('auth', {
                 console.error(error);
             }
         },
+        async loginAdmin(userData: LoginAuthBody) {
+            try {
+                const data: AuthResponse = await $fetch('/api/auth/admin/login', {
+                    method: "POST",
+                    body: userData
+                }) as AuthResponse;
+                this.token = data.token;
+                this.user = data.user;
+                this.session = data.session;
+                console.log(this.user, this.session)
+            } catch (error) {
+                console.error(error);
+            }
+        },
         async register(userData: RegisterAuthBody) {
             try {
-                const data : AuthResponse = await $fetch('/api/auth/register', {
+                const data: AuthResponse = await $fetch('/api/auth/register', {
                     method: "POST",
                     body: userData
                 }) as AuthResponse;
