@@ -22,6 +22,17 @@ const course = ref<Course | null>(null);
 const isAdmin = ref(false);
 const studentId = ref<number | null>(null);
 
+// Ensure this runs only in the client
+if (process.client) {
+    const session: Session | null = JSON.parse(localStorage.getItem('session') ?? "{}") as Session | null;
+    if (session) {
+        studentId.value = session.userId;
+        if (session.userType === 'admin') {
+            isAdmin.value = true;
+        }
+    }
+}
+
 onMounted(async () => {
     course.value = await $fetch(`/api/courses/${route.params.id}`, {
         method: "GET",
@@ -29,17 +40,6 @@ onMounted(async () => {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         }
     });
-
-    // Ensure this runs only in the client
-    if (process.client) {
-        const session: Session | null = JSON.parse(localStorage.getItem('session') ?? "{}") as Session | null;
-        if (session) {
-            studentId.value = session.userId;
-            if (session.userType === 'admin') {
-                isAdmin.value = true;
-            }
-        }
-    }
 });
 
 const deleteCourse = async () => {
