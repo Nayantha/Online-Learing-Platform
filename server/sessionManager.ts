@@ -28,14 +28,7 @@ export async function createSession(sessionData: CreateSessionData) {
         }) as Session;
 
         const secret = process.env.JWT_SECRET as string;
-        const decodedToken = jwt.verify(session.token, secret);
-
-        console.log(decodedToken)
-
-        if (new Date().getTime() > session.expiresAt.getTime()) {
-            await removeSession(session);
-            throw new Error("expired");
-        }
+        jwt.verify(session.token, secret);
 
         return session;
 
