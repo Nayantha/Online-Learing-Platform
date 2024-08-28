@@ -5,8 +5,8 @@
         <NuxtLink :to="`/courses/${course.id}/edit`">Edit Course</NuxtLink>
         <button v-if="isAdmin" @click="deleteCourse">Delete</button>
         <div v-if="!isAdmin">
-            <button @click="enroll">Enroll</button>
-            <div>Enrolled</div>
+            <button v-if="!isEnrolled" @click="enroll">Enroll</button>
+            <div v-if="isEnrolled">Enrolled</div>
         </div>
     </div>
 </template>
@@ -21,6 +21,7 @@ const route = useRoute();
 const course = ref<Course | null>(null);
 const isAdmin = ref(false);
 const studentId = ref<number | null>(null);
+const isEnrolled = ref(false);
 
 // Ensure this runs only in the client
 if (process.client) {
@@ -40,6 +41,18 @@ onMounted(async () => {
             Authorization: `Bearer ${localStorage.getItem('token')}`
         }
     });
+    if (studentId.value && course.value!.id) {
+        try {
+            isEnrolled.value = await $fetch(`/api/enrollment/${course.value!.id}/${studentId.value}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+        } catch (error) {
+            console.error("Failed to fetch enrollment details:", error);
+        }
+    }
 });
 
 const deleteCourse = async () => {
