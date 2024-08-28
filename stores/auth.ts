@@ -3,15 +3,17 @@ import {useStorage} from '@vueuse/core';
 import type {AuthResponse, LoginAuthBody, RegisterAuthBody, Session, StoreUser} from "~/utils/types";
 
 export const useAuthStore = defineStore('auth', {
-    state: () => ({
-        user: useStorage<StoreUser | null>('user', null),
-        token: useStorage<string | null>('token', null),
-        session: useStorage<Session | null>("session", null)
-    }),
+    state: () => {
+        return {
+            user: useStorage<StoreUser | null>('user', null),
+            token: useStorage<string | null>('token', null),
+            session: useStorage<Session | null>("session", null)
+        }
+    },
     actions: {
         async login(userData: LoginAuthBody) {
             try {
-                const data : AuthResponse = await $fetch('/api/auth/login', {
+                const data: AuthResponse = await $fetch('/api/auth/login', {
                     method: "POST",
                     body: userData
                 }) as AuthResponse;
