@@ -8,11 +8,12 @@ import {prisma} from "~/server/db";
 export default defineEventHandler(async (event: H3Event<Request>): Promise<CourseCreationResponseBody> => {
     const token = getHeader(event, 'Authorization')?.replace('Bearer ', '');
     const body: CourseEnrollmentBody = await readBody(event);
+
     try {
         const secret = process.env.JWT_SECRET as string;
         jwt.verify(token, secret);
 
-        await prisma.course.create({
+        await prisma.enrollment.create({
             data: {
                 ...body
             }
