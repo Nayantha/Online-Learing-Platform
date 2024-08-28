@@ -13,7 +13,7 @@ export default defineEventHandler(async (event: any): Promise<Course[]> => {
         if (error.name === 'TokenExpiredError') {
             console.error('Token has expired:', error.expiredAt);
         } else {
-            console.error('Token verification failed:', error.message);
+            console.error('Error:', error.message);
         }
         return [] as Course[];
     }
