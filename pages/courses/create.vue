@@ -17,7 +17,6 @@
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
 
-const authStore = useAuthStore();
 const form = ref({name: 'Science 101', description: 'Introduction to basic Science.'});
 const router = useRouter();
 
