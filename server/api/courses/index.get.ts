@@ -1,6 +1,20 @@
-import { prisma } from '~/server/db';
-import { Course } from '~/utils/types';
+import {prisma} from '~/server/db';
+// @ts-ignore
+import jwt from "jsonwebtoken";
+import {Course} from "~/utils/types";
 
-export default defineEventHandler(async () => {
-    return prisma.course.findMany() as Course[];
+export default defineEventHandler(async (event: any): Promise<Course[]> => {
+    const token = getHeader(event, 'Authorization')?.replace('Bearer ', '');
+    try {
+        const secret = process.env.JWT_SECRET as string;
+        jwt.verify(token, secret);
+        return prisma.course.findMany() as Course[];
+    } catch (error: any) {
+        if (error.name === 'TokenExpiredError') {
+            console.error('Token has expired:', error.expiredAt);
+        } else {
+            console.error('Token verification failed:', error.message);
+        }
+        return [] as Course[];
+    }
 });
