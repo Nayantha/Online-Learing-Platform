@@ -6,7 +6,7 @@ import {CreateSessionData, Session} from "~/utils/types";
 const JWT_EXPIRE_TIME = 1; // 1 hour
 
 export function createJWT(userId: number) {
-    return jwt.sign({ userId }, process.env.JWT_SECRET as string, { expiresIn: `${ JWT_EXPIRE_TIME }h` });
+    return jwt.sign({userId}, process.env.JWT_SECRET as string, {expiresIn: `${JWT_EXPIRE_TIME}h`});
 }
 
 const getNowPlusOneHour = () => {
@@ -19,7 +19,12 @@ export async function createSession(sessionData: CreateSessionData) {
     const token = createJWT(sessionData.userId);
     try {
         const session = await prisma.session.findUniqueOrThrow({
-            where: sessionData.userId
+            where: {
+                userId_userType: {
+                    userId: sessionData.userId,
+                    userType: sessionData.userType
+                }
+            }
         }) as Session;
 
         if (new Date().getTime() > session.expiresAt.getTime()) {
