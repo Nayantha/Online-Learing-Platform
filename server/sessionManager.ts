@@ -28,6 +28,11 @@ export async function createSession(sessionData: CreateSessionData) {
         }) as Session;
 
         if (new Date().getTime() > session.expiresAt.getTime()) {
+            await prisma.session.delete({
+                where: {
+                    id: session.id
+                }
+            })
             throw new Error("expired");
         }
 
